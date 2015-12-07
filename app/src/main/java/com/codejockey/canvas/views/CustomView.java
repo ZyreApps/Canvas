@@ -1,4 +1,4 @@
-package com.codejokey.canvas.com.codejokey.canvas.views;
+package com.codejockey.canvas.com.codejockey.canvas.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,7 +13,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.codejokey.canvas.R;
+import com.codejockey.canvas.R;
 
 import java.util.ArrayList;
 

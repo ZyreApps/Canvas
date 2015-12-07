@@ -1,4 +1,4 @@
-package com.codejokey.canvas.listener;
+package com.codejockey.canvas.listener;
 
 /**
  * Created by Valentine on 6/6/2015.

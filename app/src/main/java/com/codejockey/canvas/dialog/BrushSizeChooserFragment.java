@@ -1,4 +1,4 @@
-package com.codejokey.canvas.dialog;
+package com.codejockey.canvas.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -13,8 +13,8 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.codejokey.canvas.R;
-import com.codejokey.canvas.listener.OnNewBrushSizeSelectedListener;
+import com.codejockey.canvas.R;
+import com.codejockey.canvas.listener.OnNewBrushSizeSelectedListener;
 
 
 /**

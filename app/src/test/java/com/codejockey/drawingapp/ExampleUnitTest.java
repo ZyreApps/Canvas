@@ -1,4 +1,4 @@
-package com.codejokey.canvas;
+package com.codejockey.canvas;
 
 import org.junit.Test;
 

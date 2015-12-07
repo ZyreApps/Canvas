@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".com.codejokey.canvas.views.MainActivity"
+    tools:context=".com.codejockey.canvas.views.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <com.codejokey.canvas.com.codejokey.canvas.views.CustomView
+    <com.codejockey.canvas.com.codejockey.canvas.views.CustomView
         android:id="@+id/custom_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

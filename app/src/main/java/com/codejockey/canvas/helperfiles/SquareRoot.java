@@ -1,4 +1,4 @@
-package com.codejokey.canvas.com.codejokey.canvas.helperfiles;
+package com.codejockey.canvas.com.codejockey.canvas.helperfiles;
 
 public class SquareRoot
 {

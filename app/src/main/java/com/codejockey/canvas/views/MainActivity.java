@@ -1,4 +1,4 @@
-package com.codejokey.canvas.com.codejokey.canvas.views;
+package com.codejockey.canvas.com.codejockey.canvas.views;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,9 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.codejokey.canvas.R;
-import com.codejokey.canvas.dialog.BrushSizeChooserFragment;
-import com.codejokey.canvas.listener.OnNewBrushSizeSelectedListener;
+import com.codejockey.canvas.R;
+import com.codejockey.canvas.dialog.BrushSizeChooserFragment;
+import com.codejockey.canvas.listener.OnNewBrushSizeSelectedListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
