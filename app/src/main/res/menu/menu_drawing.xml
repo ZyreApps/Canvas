@@ -1,0 +1,37 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".com.codejokey.canvas.views.MainActivity">
+
+
+    <item
+        android:id="@+id/action_delete"
+        android:title="@string/action_delete"
+        android:icon="@drawable/ic_delete_white_36dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_undo"
+        android:title="@string/action_undo"
+        android:icon="@drawable/ic_undo_variant_white_36dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_redo"
+        android:title="@string/action_redo"
+        android:icon="@drawable/ic_redo_variant_white_36dp"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/action_brush"
+        android:title="@string/action_brush"
+        android:icon="@drawable/ic_brush_white_36dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/action_share"
+        android:icon="@drawable/ic_action_share"
+        app:showAsAction="always" />
+</menu>

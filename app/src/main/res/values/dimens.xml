@@ -1,0 +1,63 @@
+<resources>
+
+    <bool name="isTablet">false</bool>
+
+    <dimen name="small_brush">10dp</dimen>
+    <integer name="small_size">10</integer>
+    <dimen name="medium_brush">20dp</dimen>
+    <integer name="medium_size">20</integer>
+    <dimen name="large_brush">30dp</dimen>
+    <integer name="large_size">30</integer>
+
+    <integer name="min_size">1</integer>
+    <integer name="max_size">50</integer>
+
+    <dimen name="color_swatch_large">64dip</dimen>
+    <dimen name="color_swatch_small">48dip</dimen>
+    <dimen name="color_swatch_margins_large">8dip</dimen>
+    <dimen name="color_swatch_margins_small">4dip</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">26dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="height_header_layout">50dp</dimen>
+    <dimen name="height_footer_layout">50dp</dimen>
+    <dimen name="height_header_text">60dp</dimen>
+    <dimen name="height_horizotation_list">120dp</dimen>
+    <dimen name="height_item_nomal">80dp</dimen>
+    <dimen name="height_item_xnomal">100dp</dimen>
+    <dimen name="width_height_itemcart">120dp</dimen>
+    <dimen name="theme_corner_radius">5dp</dimen>
+
+    <!-- Text Size -->
+    <dimen name="text_size_tiny">6sp</dimen>
+    <dimen name="text_size_xtiny">8sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">13sp</dimen>
+    <dimen name="text_size_xnormal">16sp</dimen>
+    <dimen name="text_size_xxnormal">18sp</dimen>
+    <dimen name="text_size_header">20sp</dimen>
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="text_size_xlarge">26sp</dimen>
+    <dimen name="text_size_xxlarge">28sp</dimen>
+    <dimen name="text_size_huge">30sp</dimen>
+    <dimen name="text_width_height">170dp</dimen>
+    <dimen name="text_size_height">30dp</dimen>
+
+    <!-- Margin & padding -->
+    <dimen name="margin_padding_tiny">4dp</dimen>
+    <dimen name="margin_padding_xtiny">6dp</dimen>
+    <dimen name="margin_padding_small">9dp</dimen>
+    <dimen name="margin_padding_xsmall">12dp</dimen>
+    <dimen name="margin_padding_normal">15dp</dimen>
+    <dimen name="margin_padding_xnormal">20dp</dimen>
+    <dimen name="margin_padding_xxnormal">25dp</dimen>
+    <dimen name="margin_padding_large">30dp</dimen>
+    <dimen name="margin_padding_xlarge">40dp</dimen>
+    <dimen name="margin_padding_xxlarge">50dp</dimen>
+    <dimen name="margin_large">70dp</dimen>
+    <dimen name="spacing">9dp</dimen>
+    <dimen name="dividerHeight">8dp</dimen>
+    <dimen name="icon_width_height">30dp</dimen>
+</resources>
