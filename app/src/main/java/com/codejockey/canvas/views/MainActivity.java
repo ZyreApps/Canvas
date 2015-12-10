@@ -1,4 +1,4 @@
-package com.codejockey.canvas.com.codejockey.canvas.views;
+package com.codejockey.canvas.views;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,8 +26,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class MainActivity extends AppCompatActivity {
+import yuku.ambilwarna.AmbilWarnaDialog;
 
+public class MainActivity extends AppCompatActivity
+{
     private Toolbar mToolbar_top;
     private Toolbar mToolbar_bottom;
     private static final String LOG_CAT = MainActivity.class.getSimpleName();
@@ -36,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private CustomView mCustomView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -49,9 +52,11 @@ public class MainActivity extends AppCompatActivity {
         mToolbar_bottom.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_dots_vertical_white_24dp));
 
         mToolbar_bottom.inflateMenu(R.menu.menu_drawing);
-        mToolbar_bottom.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        mToolbar_bottom.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener()
+        {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public boolean onMenuItemClick(MenuItem item)
+            {
                 handleDrawingIconTouched(item.getItemId());
                 return false;
             }
@@ -60,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void handleDrawingIconTouched(int itemId) {
+    private void handleDrawingIconTouched(int itemId)
+    {
         switch (itemId){
             case R.id.action_delete:
                 deleteDialog();
@@ -77,11 +83,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_brush:
                 brushSizePicker();
                 break;
+            case R.id.action_color:
+                colorPicker();
+                break;
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -93,21 +103,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void deleteDialog(){
+    private void deleteDialog()
+    {
         AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
         deleteDialog.setTitle(getString(R.string.delete_drawing));
         deleteDialog.setMessage(getString(R.string.new_drawing_warning));
-        deleteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int which){
+        deleteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 mCustomView.eraseAll();
                 dialog.dismiss();
             }
         });
-        deleteDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+
+        deleteDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 dialog.cancel();
             }
         });
+
         deleteDialog.show();
     }
 
@@ -184,7 +201,8 @@ public class MainActivity extends AppCompatActivity {
         mCustomView.destroyDrawingCache();
     }
 
-    private void shareDrawing() {
+    private void shareDrawing()
+    {
         mCustomView.setDrawingCacheEnabled(true);
         mCustomView.invalidate();
         String path = Environment.getExternalStorageDirectory().toString();
@@ -193,29 +211,38 @@ public class MainActivity extends AppCompatActivity {
                 "android_drawing_app.jpg");
         file.getParentFile().mkdirs();
 
-        try {
+        try
+        {
             file.createNewFile();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Log.e(LOG_CAT, e.getCause() + e.getMessage());
         }
 
-        try {
+        try
+        {
             fOut = new FileOutputStream(file);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Log.e(LOG_CAT, e.getCause() + e.getMessage());
         }
 
-        if (mCustomView.getDrawingCache() == null) {
+        if (mCustomView.getDrawingCache() == null)
+        {
             Log.e(LOG_CAT,"Unable to get drawing cache ");
         }
 
-        mCustomView.getDrawingCache()
-                .compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+        mCustomView.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 85, fOut);
 
-        try {
+        try
+        {
             fOut.flush();
             fOut.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             Log.e(LOG_CAT, e.getCause() + e.getMessage());
         }
 
@@ -247,5 +274,27 @@ public class MainActivity extends AppCompatActivity {
         brushDialog.show(getSupportFragmentManager(), "Dialog");
     }
 
+    private void colorPicker()
+    {
+        final AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, mCustomView.getLastColor(), new AmbilWarnaDialog.OnAmbilWarnaListener()
+        {
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color)
+            {
+                // color is the color selected by the user.
+                mCustomView.setColor(color);
+            }
+
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+                // cancel was selected by the user
+            }
+
+        });
+
+
+        dialog.show();
+
+    }
 
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".com.codejockey.canvas.views.MainActivity">
+    tools:context="com.codejockey.canvas.views.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -23,7 +23,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.codejockey.canvas.com.codejockey.canvas.views.CustomView
+    <com.codejockey.canvas.views.CustomView
         android:id="@+id/custom_view"
         android:layout_below="@+id/app_bar_layout"
         android:layout_width="match_parent"

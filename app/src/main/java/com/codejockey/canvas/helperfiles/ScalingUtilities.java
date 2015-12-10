@@ -1,4 +1,4 @@
-package com.codejockey.canvas.com.codejockey.canvas.helperfiles;
+package com.codejockey.canvas.helperfiles;
 
 /*
  * Copyright (c) 2010, Sony Ericsson Mobile Communication AB. All rights reserved.

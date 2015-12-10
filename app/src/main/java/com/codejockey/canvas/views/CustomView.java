@@ -1,4 +1,4 @@
-package com.codejockey.canvas.com.codejockey.canvas.views;
+package com.codejockey.canvas.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Updated by DarrinS
  * Fixed the bug where the size selection didn't work
  * Added functionality to allow different sized brushes to be used (no change made to prior strokes)
- * Added Fixed/Variable selction capability (no functionality for it yet...comes next).
+ * Added Fixed/Variable selection capability (no functionality for it yet...comes next).
  */
 public class CustomView extends View
 {
@@ -52,7 +52,9 @@ public class CustomView extends View
     private Bitmap canvasBitmap;
 
     //brush size
-    private float currentBrushSize, lastBrushSize;
+    private float currentBrushSize;
+    private float lastBrushSize;
+    private int lastColor = 0xFF000000;
 
     private ArrayList<Path> paths = new ArrayList<Path>();
     private ArrayList<Paint> paints = new ArrayList<Paint>();
@@ -109,6 +111,7 @@ public class CustomView extends View
 
             paintIndex++;
         }
+
         canvas.drawPath(drawPath, drawPaint);
     }
 
@@ -183,8 +186,10 @@ public class CustomView extends View
         drawPath.lineTo(mX, mY);
         drawCanvas.drawPath(drawPath, drawPaint);
         paths.add(drawPath);
-        drawPath = new Path();
+        paints.add(drawPaint);
 
+        drawPath = new Path();
+        drawPaint = new Paint();
     }
 
     private void touch_move(float x, float y) {
@@ -207,7 +212,8 @@ public class CustomView extends View
 
     }
 
-    public void onClickRedo (){
+    public void onClickRedo ()
+    {
        if (undonePaths.size()>0)
         {
             paths.add(undonePaths.remove(undonePaths.size()-1));
@@ -224,8 +230,8 @@ public class CustomView extends View
 
 
         drawPath = new Path();
-
         drawPaint = new Paint();
+
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
         drawPaint.setStyle(Paint.Style.STROKE);
@@ -237,14 +243,41 @@ public class CustomView extends View
         paints.add(drawPaint);
     }
 
-    public void setLastBrushSize(float lastSize){
+    public void setColor(int color)
+    {
+        drawPath = new Path();
+        drawPaint = new Paint();
+
+        drawPaint.setColor(color);
+        drawPaint.setAntiAlias(true);
+        drawPaint.setStyle(Paint.Style.STROKE);
+        drawPaint.setStrokeJoin(Paint.Join.ROUND);
+        drawPaint.setStrokeCap(Paint.Cap.ROUND);
+
+        drawPaint.setStrokeWidth(currentBrushSize);
+
+        paints.add(drawPaint);
+    }
+
+    public void setLastBrushSize(float lastSize)
+    {
         lastBrushSize=lastSize;
     }
 
-    public float getLastBrushSize(){
+    public void setLastColor(int lastColor)
+    {
+        this.lastColor = lastColor;
+    }
+
+    public float getLastBrushSize()
+    {
         return lastBrushSize;
     }
 
+    public int getLastColor()
+    {
+        return lastColor;
+    }
 
 
 

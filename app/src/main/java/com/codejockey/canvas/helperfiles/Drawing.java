@@ -1,4 +1,4 @@
-package com.codejockey.canvas.com.codejockey.canvas.helperfiles;
+package com.codejockey.canvas.helperfiles;
 
 /*  Canvas Drawing class
 

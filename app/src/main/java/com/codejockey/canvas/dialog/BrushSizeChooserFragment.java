@@ -93,7 +93,7 @@ public class BrushSizeChooserFragment extends DialogFragment
         final LayoutInflater inflater = getActivity().getLayoutInflater();
 
         // Inflate the layout for this dialog.
-        final View dialogView = inflater.inflate(R.layout.dialog_brush_size_chooser, null);
+        final View dialogView = inflater.inflate(R.layout.dialog_brush_chooser, null);
 
         if (dialogView != null)
         {
@@ -174,6 +174,11 @@ public class BrushSizeChooserFragment extends DialogFragment
 
                 }
             });
+
+
+            //Set up the view for the color picker
+            final View colorPicker = dialogView.findViewById(R.id.color_picker);
+
 
         }
 
