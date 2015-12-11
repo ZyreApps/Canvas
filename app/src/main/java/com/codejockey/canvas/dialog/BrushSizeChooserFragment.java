@@ -174,12 +174,6 @@ public class BrushSizeChooserFragment extends DialogFragment
 
                 }
             });
-
-
-            //Set up the view for the color picker
-            final View colorPicker = dialogView.findViewById(R.id.color_picker);
-
-
         }
 
         builder.setTitle("Choose new Brush Size").setPositiveButton("Ok", new DialogInterface.OnClickListener()
