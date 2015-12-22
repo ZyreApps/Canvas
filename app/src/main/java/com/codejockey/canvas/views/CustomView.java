@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ public class CustomView extends View
 {
 
     private static final String LOG_CAT = CustomView.class.getSimpleName();
+    private static final String TAG = CustomView.class.getName();
 
     //drawing path
     private Path drawPath;
@@ -69,15 +71,9 @@ public class CustomView extends View
         lastBrushSize = currentBrushSize;
 
         drawPath = new Path();
-        drawPaint = new Paint();
-        drawPaint.setColor(paintColor);
-        drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(currentBrushSize);
-        drawPaint.setStyle(Paint.Style.STROKE);
-        drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        drawPaint.setStrokeCap(Paint.Cap.ROUND);
+        drawPaint = getNewPaint();
 
-        paints.add(drawPaint);
+//        paints.add(drawPaint);
 
 /*
         this._paintBlur = new Paint();
@@ -107,12 +103,18 @@ public class CustomView extends View
 
         for (Path p : paths)
         {
-            canvas.drawPath(p, paints.get(paintIndex));
+            Paint paint = paints.get(paintIndex);
+
+            canvas.drawPath(p, paint);
+
+            Log.d(TAG, "In onDraw. Brush size was set to: " + paint.getStrokeWidth());
 
             paintIndex++;
         }
 
         canvas.drawPath(drawPath, drawPaint);
+
+        Log.d(TAG, "Leaving onDraw. Brush size was set to: " + drawPaint.getStrokeWidth());
     }
 
     @Override
@@ -158,44 +160,61 @@ public class CustomView extends View
     {
         eraseMode = isErase;
 
-        if(eraseMode){
+        if(eraseMode)
+        {
             drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        } else {
+        }
+        else
+        {
             drawPaint.setXfermode(null);
         }
     }
 
     /** Start new Drawing */
-    public void eraseAll() {
+    public void eraseAll()
+    {
        drawPath = new Path();
-        paths.clear();
-        drawCanvas.drawColor(Color.WHITE);
-        invalidate();
+       drawPaint = new Paint();
+       paths.clear();
+       paints.clear();
+       drawCanvas.drawColor(Color.WHITE);
+       invalidate();
     }
 
 
-    private void touch_start(float x, float y) {
+    private void touch_start(float x, float y)
+    {
         undonePaths.clear();
         drawPath.reset();
         drawPath.moveTo(x, y);
         mX = x;
         mY = y;
+
+        Log.d(TAG, "Leaving touch_start. Brush size was set to: " + drawPaint.getStrokeWidth());
+
     }
 
-    private void touch_up() {
+    private void touch_up()
+    {
         drawPath.lineTo(mX, mY);
+
         drawCanvas.drawPath(drawPath, drawPaint);
+
         paths.add(drawPath);
         paints.add(drawPaint);
 
+        Log.d(TAG, "In touch_up. Brush size was set to: " + drawPaint.getStrokeWidth());
+
         drawPath = new Path();
-        drawPaint = new Paint();
+        drawPaint = getNewPaint();
     }
 
-    private void touch_move(float x, float y) {
+    private void touch_move(float x, float y)
+    {
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
-        if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
+        if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE)
+        {
             drawPath.quadTo(mX, mY, (x + mX)/2, (y + mY)/2);
             mX = x;
             mY = y;
@@ -203,7 +222,8 @@ public class CustomView extends View
     }
 
 
-    public void onClickUndo () {
+    public void onClickUndo ()
+    {
        if (paths.size()>0)
         {
             undonePaths.add(paths.remove(paths.size()-1));
@@ -225,43 +245,67 @@ public class CustomView extends View
     //method to set brush size
     public void setBrushSize(float newSize)
     {
+
+        if(true)
+        {
+            return;
+        }
+
         float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, newSize, getResources().getDisplayMetrics());
         currentBrushSize = pixelAmount;
 
-
         drawPath = new Path();
-        drawPaint = new Paint();
+        drawPaint = getNewPaint();
 
-        drawPaint.setColor(paintColor);
-        drawPaint.setAntiAlias(true);
-        drawPaint.setStyle(Paint.Style.STROKE);
-        drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        drawPaint.setStrokeCap(Paint.Cap.ROUND);
-
-        drawPaint.setStrokeWidth(newSize);
-
+        paths.add(drawPath);
         paints.add(drawPaint);
+
+        drawPaint.setStrokeWidth(currentBrushSize);
+
+        Log.d(TAG, "Leaving setBrushSize. Brush size set to: " + currentBrushSize);
+
     }
 
     public void setColor(int color)
     {
-        drawPath = new Path();
-        drawPaint = new Paint();
-
-        drawPaint.setColor(color);
-        drawPaint.setAntiAlias(true);
-        drawPaint.setStyle(Paint.Style.STROKE);
-        drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        drawPaint.setStrokeCap(Paint.Cap.ROUND);
-
-        drawPaint.setStrokeWidth(currentBrushSize);
+//        drawPath = new Path();
+        paintColor = color;
+        drawPaint = getNewPaint();
 
         paints.add(drawPaint);
+        paintColor = color;
+
+        Log.d(TAG, "Setting paint color to: " + drawPaint.getColor());
+
+    }
+
+    private Paint getNewPaint()
+    {
+        Paint newPaint = new Paint();
+        newPaint.setColor(paintColor);
+        newPaint.setAntiAlias(true);
+        newPaint.setStyle(Paint.Style.STROKE);
+        newPaint.setStrokeJoin(Paint.Join.ROUND);
+        newPaint.setStrokeCap(Paint.Cap.ROUND);
+
+        newPaint.setStrokeWidth(currentBrushSize);
+
+        Log.d(TAG, "Leaving getNewPaint. Brush size set to: " + currentBrushSize);
+
+        return newPaint;
     }
 
     public void setLastBrushSize(float lastSize)
     {
         lastBrushSize=lastSize;
+        currentBrushSize = lastBrushSize;
+
+
+        drawPaint.setStrokeWidth(lastBrushSize);
+
+
+        Log.d(TAG, "Leaving setLastBrushSize. Last brush size set to: " + lastBrushSize);
+
     }
 
     public void setLastColor(int lastColor)
