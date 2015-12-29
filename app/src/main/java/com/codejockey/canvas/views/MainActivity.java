@@ -30,6 +30,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class MainActivity extends AppCompatActivity
 {
+    private static final String TAG = MainActivity.class.getName();
     private Toolbar mToolbar_top;
     private Toolbar mToolbar_bottom;
     private static final String LOG_CAT = MainActivity.class.getSimpleName();
@@ -63,6 +64,11 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+        //Set up the Zyre functionality
+        setUpJni();
+
+        //Test that functionality
+//        this.zyre_test(true);
     }
 
     private void handleDrawingIconTouched(int itemId)
@@ -207,8 +213,7 @@ public class MainActivity extends AppCompatActivity
         mCustomView.invalidate();
         String path = Environment.getExternalStorageDirectory().toString();
         OutputStream fOut = null;
-        File file = new File(path,
-                "android_drawing_app.jpg");
+        File file = new File(path, "android_drawing_app.jpg");
         file.getParentFile().mkdirs();
 
         try
@@ -286,7 +291,8 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onCancel(AmbilWarnaDialog dialog) {
+            public void onCancel(AmbilWarnaDialog dialog)
+            {
                 // cancel was selected by the user
             }
 
@@ -297,4 +303,24 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void setUpJni()
+    {
+        try
+        {
+            Log.d(TAG,"About to load libraries");
+            System.loadLibrary("czmq");
+            System.loadLibrary("zmq");
+            System.loadLibrary("zyre");
+            System.loadLibrary("sodium");
+//            System.loadLibrary("zyrejni");
+        }
+        catch (Exception e)
+        {
+            Log.w(TAG, "Exception caught trying to load library: " + e);
+        }
+
+    }
+
+
+//    public native void zyre_test(boolean b);
 }

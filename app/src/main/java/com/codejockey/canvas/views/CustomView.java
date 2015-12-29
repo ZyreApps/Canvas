@@ -8,9 +8,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -62,6 +64,8 @@ public class CustomView extends View
     private ArrayList<Paint> paints = new ArrayList<Paint>();
 
     private ArrayList<Path> undonePaths = new ArrayList<Path>();
+    private ArrayList<Paint> undonePaints = new ArrayList<Paint>();
+
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
 
@@ -107,14 +111,14 @@ public class CustomView extends View
 
             canvas.drawPath(p, paint);
 
-            Log.d(TAG, "In onDraw. Brush size was set to: " + paint.getStrokeWidth());
+            Log.d(TAG, "In onDraw. Brush size: " + paint.getStrokeWidth() + " Paint color: " + paint.getColor());
 
             paintIndex++;
         }
 
         canvas.drawPath(drawPath, drawPaint);
 
-        Log.d(TAG, "Leaving onDraw. Brush size was set to: " + drawPaint.getStrokeWidth());
+        Log.d(TAG, "Leaving onDraw. Brush size was set to: " + drawPaint.getStrokeWidth() + "Paths size=" + paths.size() + " Paints size=" + paints.size());
     }
 
     @Override
@@ -130,24 +134,45 @@ public class CustomView extends View
         drawCanvas = new Canvas(canvasBitmap);
     }
 
+
+    final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener()
+    {
+        public void onLongPress(MotionEvent e)
+        {
+            Log.i(TAG, "Longpress detected...time to flood fill");
+        }
+    });
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+
         float touchX = event.getX();
         float touchY = event.getY();
 
-        switch (event.getAction()){
+        gestureDetector.onTouchEvent(event);
+
+
+        switch (event.getAction())
+        {
             case MotionEvent.ACTION_DOWN:
                 touch_start(touchX, touchY);
                 invalidate();
+
+  //              Log.i(TAG, "Starting potential long press handler");
+  //              handler.postDelayed(mLongPressed, 1000);
                 break;
             case MotionEvent.ACTION_MOVE:
                 touch_move(touchX, touchY);
                 invalidate();
+//                handler.removeCallbacks(mLongPressed);
+//                Log.i(TAG, "Moved: Stopping potential long press handler");
                 break;
             case MotionEvent.ACTION_UP:
                 touch_up();
                 invalidate();
+//                handler.removeCallbacks(mLongPressed);
+//                Log.i(TAG, "Up: Stopping potential long press handler");
                 break;
             default:
                 return false;
@@ -185,13 +210,15 @@ public class CustomView extends View
     private void touch_start(float x, float y)
     {
         undonePaths.clear();
+        undonePaints.clear();
+
         drawPath.reset();
         drawPath.moveTo(x, y);
+
         mX = x;
         mY = y;
 
         Log.d(TAG, "Leaving touch_start. Brush size was set to: " + drawPaint.getStrokeWidth());
-
     }
 
     private void touch_up()
@@ -227,9 +254,15 @@ public class CustomView extends View
        if (paths.size()>0)
         {
             undonePaths.add(paths.remove(paths.size()-1));
+            undonePaints.add(paints.remove(paints.size()-1));
+
+            paintColor = paints.get(paints.size() -1).getColor();
+            drawPaint.setColor(paintColor);
+
             invalidate();
         }
 
+        Log.d(TAG, "Leaving onClickUndo. Paths size=" + paths.size() + " Paints size=" + paints.size());
     }
 
     public void onClickRedo ()
@@ -237,6 +270,7 @@ public class CustomView extends View
        if (undonePaths.size()>0)
         {
             paths.add(undonePaths.remove(undonePaths.size()-1));
+            paints.add(undonePaints.remove(undonePaints.size()-1));
             invalidate();
         }
 
@@ -268,15 +302,10 @@ public class CustomView extends View
 
     public void setColor(int color)
     {
-//        drawPath = new Path();
         paintColor = color;
-        drawPaint = getNewPaint();
-
-        paints.add(drawPaint);
-        paintColor = color;
+        drawPaint.setColor(paintColor);
 
         Log.d(TAG, "Setting paint color to: " + drawPaint.getColor());
-
     }
 
     private Paint getNewPaint()
@@ -324,5 +353,14 @@ public class CustomView extends View
     }
 
 
+    final Handler handler = new Handler();
+
+    Runnable mLongPressed = new Runnable()
+    {
+        public void run()
+        {
+            Log.i("", "Long press!");
+        }
+    };
 
 }
